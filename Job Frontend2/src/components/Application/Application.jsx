@@ -7,7 +7,7 @@ import axios from 'axios';
 import { CiLocationOn } from 'react-icons/ci';
 import userImg from '../../assets/userImg.png';
 const Application = () => {
- const { isAuthorized, user } = useContext(Context);
+ const { isAuthorized, user ,SetNav} = useContext(Context);
   const { id } = useParams();
   const [job,setJob]=useState({});
   const [username, setName] = useState("");
@@ -71,7 +71,9 @@ toast.success(err);
   useEffect(() => {
    fetchJob();
   }, [user])
-
+useEffect(()=>{
+  SetNav("Application");
+},[])
 
   return (
     <div className="flex justify-center items-center min-h-screen">

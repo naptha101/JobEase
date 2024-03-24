@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
         type: String, // <-- Corrected typo here (changed 'tyoe' to 'type')
         required: [true, "Enter Description"],
         minLength: [3, "Enter min 3"],
-        maxLength: [350, "Max Length is 350"]
+        maxLength: [1000, "Max Length is 350"]
     },
     category: {
         type: String,

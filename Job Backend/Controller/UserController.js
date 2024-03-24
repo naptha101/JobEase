@@ -5,9 +5,9 @@ const jwt=require('jsonwebtoken');
 const SendMail = require('../Mailer/SendMail');
 const cloudinary=require('cloudinary').v2
 cloudinary.config({ 
-    cloud_name: 'dneeum0v1', 
-    api_key: '951164984623356', 
-    api_secret: 'YC86zF3N1b5Ue0EhxX5GjK2SoOg' 
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key: process.env.CLOUD_API, 
+    api_secret: process.env.CLOUD_API_SECRET 
   });
 const Register = async (req, res, next) => {
     try {
@@ -239,7 +239,7 @@ try{
      const id=ver.id;
      const user=await User.findById({_id:id}).select('+password');
    if(!user){
-      res.status(500).json({status:false,message:"User not found failed"});  
+      return res.status(500).json({status:false,message:"User not found failed"});  
    }
    
 const {username,password,newPassword,email,phone}=req.body;
@@ -248,17 +248,17 @@ if (!username || !password || !email || !phone) {
 }
 const comp=await bcrypt.compare(password,user.password);
 if(!comp){
-   res.status(200).json({status:false,message:"Password is Incorrect"}) 
+ return   res.status(200).json({status:false,message:"Password is Incorrect"}) 
 }
-if(newPassword.length<6){
-    res.status(200).json({status:false,message:"Password length is Short"}) 
+if(newPassword&&newPassword.length<6){
+    return res.status(200).json({status:false,message:"Password length is Short"}) 
 }
 const passkey = await bcrypt.hash(newPassword, 10)
 //res.status(200).json(req.body)
-await User.findByIdAndUpdate(id,{username,email,password:passkey,phone},{new:true,runValidators:true,useFindAndModify:false}).then((e)=>{
-    res.status(200).json({status:true,message:"User Updated",e});
+await User.findByIdAndUpdate(id,{username,email,password:passkey,phone},{runValidators:true,useFindAndModify:false}).then((e)=>{
+   return  res.status(200).json({status:true,message:"User Updated",e});
 }).catch((err)=>{
-    res.status(200).json({status:false,message:"Error",err});
+    return res.status(200).json({status:false,message:"Error",err});
 })
 
 
@@ -295,10 +295,18 @@ res.status(200).json({status:true,message:"User Profile Updated",user:usr});
     }
 }
 
-
+const getAllExpert=async (req,res,next)=>{
+    try{
+const experts=await User.find({role:"Expert"});
+return res.status(200).json({status:true,message:"Here are all experts",experts})
+    }
+    catch(err){
+   return res.status(500).json({status:false,message:"Cant fetch experts"})
+    }
+}
 
  
 
  
 
-module.exports = { Register,Login,logout,GetUser,getBy,updateUser,setResume,updateProfil,VerifyMail,ForgotPassword,HandleForgot};
+module.exports = { getAllExpert,Register,Login,logout,GetUser,getBy,updateUser,setResume,updateProfil,VerifyMail,ForgotPassword,HandleForgot};

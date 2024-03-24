@@ -14,7 +14,7 @@ const PostJob = () => {
   const [fixedSalary, setFixedSalary] = useState(0);
   const [salaryFrom, setSalaryFrom] = useState(0);
   const [salaryTo, setSalaryTo] = useState(0);
-  const { isAuthorized } = useContext(Context);
+  const { isAuthorized ,SetNav} = useContext(Context);
   const navigate = useNavigate();
   const [isFixed, setFixed] = useState("default");
   const [countries, setCountries] = useState([]);
@@ -30,6 +30,7 @@ const PostJob = () => {
     };
 
     fetchCountries();
+    SetNav("PostJob")
   }, []);
 
   const post = async (e) => {
@@ -67,7 +68,7 @@ const PostJob = () => {
           className='border border-2 border-black p-4 rounded-md'
         >
            <h1 className='text-4xl underline font-bold mb-2'>Post a Job</h1>
-          <form onSubmit={post} className='flex flex-col bg-gray-400 rounded-lg p-4 gap-3'>
+          <form onSubmit={post} className='flex flex-col bg-[#3652AD] rounded-lg p-4 gap-3'>
            
             <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} placeholder="Enter Title" className='border border-gray-300 rounded-md p-2' />
             <textarea onChange={(e) => setDescription(e.target.value)} value={description} placeholder="Enter Description" className='border border-gray-300 rounded-md p-2'></textarea>
@@ -97,10 +98,10 @@ const PostJob = () => {
               </>
             }
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              
               whileTap={{ scale: 0.95 }}
               type='submit'
-              className='bg-gradient-to-r from-slate-700 to-gray-200 py-2 rounded-md'
+              className='bg-gradient-to-r border-bg-[#3652AD] border-2 border  hover:bg-white hover:text-[#3652AD] to-gray-200 py-2 rounded-md text-white text-bold text-xl'
             >
               Submit
             </motion.button>
@@ -115,7 +116,7 @@ const PostJob = () => {
    <motion.h1 initial={{x:"50%"}} animate={{x:"0"}} transition={{ease:easeInOut,duration:1}} className='font-bold text-6xl capitalize'>
     Deserving
    </motion.h1>
-   <motion.h1 initial={{x:"50%"}} animate={{x:"0"}} transition={{ease:easeInOut,duration:1}} className='font-bold text-6xl capitalize'>Employes for you</motion.h1>
+   <motion.h1 initial={{x:"50%"}} animate={{x:"0"}} transition={{ease:easeInOut,duration:1}} className='font-bold text-6xl capitalize'>Employees for you</motion.h1>
 
    <motion.h1 initial={{x:"-20vw"}} animate={{x:"0"}} transition={{ease:easeInOut,duration:2}} className='font-bold text-6xl mt-7 capitalize'>
     <MdOutlinePersonSearch size={80} ></MdOutlinePersonSearch>

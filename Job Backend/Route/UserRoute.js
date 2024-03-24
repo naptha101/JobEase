@@ -1,7 +1,7 @@
 const express=require('express')
 const router=express.Router();
      const jwt=require('jsonwebtoken')    
-     const {Register,Login,logout,GetUser,getBy,updateUser,ForgotPassword,HandleForgot,setResume,updateProfil,VerifyMail} =require('../Controller/UserController') 
+     const {getAllExpert,Register,Login,logout,GetUser,getBy,updateUser,ForgotPassword,HandleForgot,setResume,updateProfil,VerifyMail} =require('../Controller/UserController') 
      // {
   
      //      "email":"yaash.as34333@gmail.com",
@@ -41,6 +41,7 @@ router.post('/verifymail',VerifyMail);
 router.post('/setprofile',updateProfil);
 router.post('/forgotpassword',ForgotPassword)
 router.put('/handleforgot',HandleForgot);
+router.get('/expert/all',getAllExpert);
 // const ipRequestCounts = {};
 // router.get('/check',async (req,res,next)=>{
 //      const rateLimit = 5; 

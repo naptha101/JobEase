@@ -6,19 +6,22 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CiLocationOn } from 'react-icons/ci';
 import { FaRegEye } from 'react-icons/fa6';
+import { loadStripe } from '@stripe/stripe-js';
+import toast from 'react-hot-toast';
 
 const Profile2 = () => {
-  const [user, setUser] = useState({});
+  const [user2, setUser] = useState({});
   const { id } = useParams();
   const [profile, setProfile] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const [createdAt, setCreatedAt] = useState('');
-
+   const {user}=useContext(Context);
   const fetchUser = async () => {
     await axios.get(`http://localhost:8000/api/auth/getby/${id}`, { withCredentials: true }).then((res) => {
       setUser(res.data.data);
+      console.log(res.data.data)
       setCreatedAt(formatDate(res.data.data.createdAt));
-      //setProfile(res.data.data.profile.url);
+      if(res.data.data.profileSet)setProfile(res.data.data.profile.url);
       fetchJobs(res.data.data._id);
       setShowProfile(true);
     });
@@ -45,6 +48,39 @@ const Profile2 = () => {
       toast.error(err.response.data.message); // Displaying the error message instead of the error object
     }
   };
+  
+  const makePayment = async (e) => {
+    try {
+   //   console.log(e);
+        const expert={name:e.username,price:e.expertDes.fees,id:e._id};
+      const response = await axios.post('http://localhost:8000/payment', { expert:expert });
+     console.log(response)
+      const { sessionId } = response.data;
+      const stripePromise = loadStripe('pk_test_51OuqngSC1axPl2WrFWcObEpnJCc7pEA03sCG9rwxYuyWyddAgLQpG9MCWQGGAw5h73dGJEkGvUrV5lkDYD9jhsDv00o1ozRFtD');
+      const stripe = await stripePromise;
+      const result = await stripe.redirectToCheckout({ sessionId });
+     
+      if (result.error) {
+        console.log(result.error);
+        toast.error("Error in payment");
+      }
+      toast.success('Payment is Initialized')
+    } catch (error) {
+      console.error("Error making payment:", error);
+      toast.error("Error in payment");
+    }
+  }
+
+  const SendMail = async (e) => {
+    try {
+       // console.log(expert);
+      const mail = await axios.post('http://localhost:8000/api/expert/send', { email:user.email, User: user._id,ExpId:e._id });
+      console.log(mail);
+
+    } catch (err) {
+      toast.error("Can't send Mail");
+    }
+  }
 // useEffect(()=>{
 //   fetchJobs()
 // },[user]);
@@ -55,20 +91,35 @@ const navigate=useNavigate();
         <h1 className='text-4xl font-bold mb-6'>User Profile</h1>
         <div className='flex flex-col gap-4'>
           <div>
-            <p className='text-lg'><span className='font-bold'>Name:</span> {user.username}</p>
+            <p className='text-lg'><span className='font-bold'>Name:</span> {user2.username}</p>
           </div>
           <div>
-            <p className='text-lg'><span className='font-bold'>Role:</span> {user.role}</p>
+            <p className='text-lg'><span className='font-bold'>Role:</span> {user2.role}</p>
           </div>
           <div>
-            <p className='text-lg'><span className='font-bold'>Email:</span> {user.email}</p>
+            <p className='text-lg'><span className='font-bold'>Email:</span> {user2.email}</p>
           </div>
           <div>
-            <p className='text-lg'><span className='font-bold'>Phone:</span> {user.phone}</p>
+            <p className='text-lg'><span className='font-bold'>Phone:</span> {user2.phone}</p>
           </div>
           <div>
             <p className='text-lg'><span className='font-bold'>Joined:</span> {createdAt}</p>
           </div>
+        {user2.role=='Expert'&& <div className='p-4 bg-gray-300 rounded-md gap-4'>
+            <p className='text-lg'><span className='font-bold'>Experiece:</span> {user2.expertDes.experience}</p>
+            <p className='text-lg' ><span className='font-bold'>Fees:</span>$:<p className='p-2 rounded-md bg-blue-300 inline px-2' onClick={()=>makePayment(user2)}>{user2.expertDes.fees}</p></p>
+            <p className='text-lg'><span className='font-bold caption-top'>clients:</span> {user2.expertDes.clients.length}</p>
+   
+       <div className='flex justify-between p-3'>
+     <button>
+      Contact
+     </button>
+      
+
+       </div>
+          </div>
+
+        }
           <div className='flex flex-col gap-2 min-h-[80%] w-full overflow-y-auto px-3 py-4 ' style={{ maxHeight: 'calc(90vh - 12rem)',scrollbarWidth:'10px' }}>
           {
           jobs.length > 0 ? jobs.map((job, i) => (

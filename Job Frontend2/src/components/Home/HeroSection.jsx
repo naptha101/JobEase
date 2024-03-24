@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { FaBuilding, FaComputer } from "react-icons/fa6";
-import { FaRegBuilding } from "react-icons/fa";
+//import { FaBuilding, FaComputer } from "react-icons/fa";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
+import { FaComputer } from 'react-icons/fa6';
+import { FaBuilding } from 'react-icons/fa';
+
 const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  
   const images = [
     {
       url: 'https://th.bing.com/th/id/R.2360e416407aef3b0397fd0ee0c21c8a?rik=pXzMCSPTLwqi3g&pid=ImgRaw&r=0',
@@ -23,7 +26,6 @@ const HeroSection = () => {
       description:"Search Job according to your expected salary and apply on them with fastest way"
 
     }
-    // Add more image URLs and descriptions as needed
   ];
 
   useEffect(() => {
@@ -36,23 +38,21 @@ const HeroSection = () => {
   }, [images.length]);
 
   return (
-    <div className='flex flex-col items-center justify-center gap-6'>
-      <div className='flex flex-row shadow-md shadow-gray-500'>
-        <div className='px-4 bg-slate-300 rounded-s-md' >
+    <section className='flex flex-col items-center mt-10 md:mt-4 p-2 justify-center gap-6'>
+      <div className='flex md:flex-row flex-col shadow-md shadow-gray-500'>
+        <div className='px-4 bg-[#C0DEFF] rounded-s-md' >
           <h1 className='text-3xl font-serif font-bold'>{images[currentIndex].description}</h1>
-          <p className='text-xl font-serif'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, ipsa. Assumenda veritatis libero qui aliquid vel rem eius, vero impedit obcaecati soluta corrupti. Blanditiis temporibus placeat pariatur repudiandae voluptate cumque.</p>
+          <p className='text-xl font-serif p-4'>“The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle.” - Steve Jobs</p>
         </div>
-        <img className='w-[70vw] h-[60vh] rounded-lg' src={images[currentIndex].url} alt={`Slide ${currentIndex + 1}`} />
+        <img className='w-[70vw] h-[60vh]  rounded-lg' src={images[currentIndex].url} alt={`Slide ${currentIndex + 1}`} />
       </div>
-      <div className='flex md:flex-row w-full justify-around md:gap-10 flex-col gap-2'>
-        <p className='p-4 bg-lime-300 hover:scale-105 flex rounded-md flex-row item-center gap-3 justify-center'>3000+ Employers <CgProfile size={30}></CgProfile></p>
-        <p className='p-4 bg-lime-300 hover:scale-105 flex rounded-md flex-row item-center gap-3 justify-center'>10000+ Jobs <FaComputer size={30}></FaComputer></p>
-        <p className='p-4 bg-lime-300 hover:scale-105 flex rounded-md flex-row item-center gap-3 justify-center'>1000+ Comanies <FaBuilding size={30}></FaBuilding></p>
-        <p className='p-4 bg-lime-300 hover:scale-105 flex rounded-md flex-row item-center gap-3 justify-center'>10000+ Job Seekers <IoPersonAddOutline size={30}></IoPersonAddOutline></p>
-
-
+      <div className='flex md:flex-row w-full justify-around md:gap-10 flex-col gap-2 pb-[10vh]'>
+        <p className='p-4 bg-[#3652AD] hover:scale-105 flex rounded-md flex-row item-center gap-3 justify-center text-white shadow-md shadow-gray-500  group '>3000+ Employers <CgProfile  className='group-hover:animate-bounce'  size={30}></CgProfile></p>
+        <p className='p-4 bg-[#3652AD] hover:scale-105 flex rounded-md flex-row item-center gap-3 justify-center text-white shadow-md shadow-gray-500 group'>1000+ Companies <FaBuilding className='group-hover:animate-bounce' size={30}></FaBuilding></p>
+        <p className='p-4 bg-[#3652AD] hover:scale-105 flex rounded-md flex-row item-center gap-3 justify-center text-white shadow-md shadow-gray-500 group'>10000+ Jobs <FaComputer className='group-hover:animate-bounce' size={30}></FaComputer></p>
+        <p className='p-4 bg-[#3652AD] hover:scale-105 flex rounded-md flex-row item-center gap-3 justify-center text-white shadow-md shadow-gray-500 group'>10000+ Job Seekers <IoPersonAddOutline className='group-hover:animate-bounce' size={30}></IoPersonAddOutline></p>
       </div>
-    </div>
+    </section>
   );
 }
 

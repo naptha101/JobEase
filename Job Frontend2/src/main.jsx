@@ -7,8 +7,10 @@ export const Context=createContext({isAuthorized:false});
 const AppWrapper=()=>{
   const [isAuthorized,SetAuthorized]=useState(false);
   const [user,SetUser]=useState({});
+  const [nav,SetNav]=useState("Home");
   return(
-<Context.Provider value={{isAuthorized,SetAuthorized,user,SetUser}}>
+    
+<Context.Provider value={{isAuthorized,SetAuthorized,user,SetUser,nav,SetNav}}>
   <App></App>
 </Context.Provider>
 

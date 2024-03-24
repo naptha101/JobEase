@@ -22,6 +22,9 @@ import Footer from './components/Layout/Footer';
 import Profile from './components/Auth/Profile';
 import VerifyEmail from './components/Auth/verifyEmail';
 import ForgotPassword from './components/Auth/ForgotPassword';
+import ExpertAll from './components/Experts/ExpertAll';
+import ExpertSucess from './components/Experts/ExpertSucess';
+import Contact from './components/Contact/Contact';
 function App() {
 
   const {isAuthorized,SetAuthorized,user,SetUser}=useContext(Context);
@@ -48,11 +51,13 @@ fetchUser()
   },[isAuthorized])
 
   return (
-    <div className='flex bg-slate-200 flex-col w-full h-auto gap-2'>
+    <div className='flex bg-white flex-col w-full h-auto gap-2'>
 
     <Router>
      <NavBar></NavBar> 
       <Routes>
+        <Route path='/expert/all' element={<ExpertAll></ExpertAll>}></Route>
+        <Route path='/success/expert/:id' element={<ExpertSucess></ExpertSucess>}></Route>
         <Route path='/profile/:id' element={<Profile></Profile>}></Route>
       <Route path='/login' element={<Login></Login>}></Route>
       <Route path='/register' element={<Register></Register>}></Route>
@@ -67,6 +72,7 @@ fetchUser()
       <Route path='/userprofile/:id' element={<Profile2></Profile2>}></Route>
       <Route path='/verifyemail' element={<VerifyEmail></VerifyEmail>}></Route>
       <Route path='/forgotpassword' element={<ForgotPassword></ForgotPassword>}></Route>
+      <Route path='/contact' element={<Contact></Contact>}></Route>
       </Routes>
       <Toaster></Toaster>
     <Footer></Footer>

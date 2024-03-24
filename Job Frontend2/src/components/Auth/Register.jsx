@@ -70,6 +70,7 @@ if(udata.data.status){
   <option value="">Select Role</option>
   <option value="Employer">Employer</option>
   <option value="Job seeker">Job Seeker</option>
+  <option value="Expert">Expert</option>
 </select>
 <input type='file' onChange={(e)=>{setImage(e.target.files[0])}}></input>
 <button type='submit' value="Register">Register</button>

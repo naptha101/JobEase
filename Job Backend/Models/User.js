@@ -30,7 +30,7 @@ password:{
 role:{
   type:String,
   required:[true,"enter Role"],
-  enum:["Job seeker","Employer"]
+  enum:["Job seeker","Employer","Expert"]
 },
 createdAt:{
   type:Date,
@@ -45,6 +45,25 @@ createdAt:{
     type:String,
     
   }
+},
+expertDes:{
+experience:{
+  type:String,
+  default:"0"
+},
+free:{
+  type:Boolean,
+  default:true
+},
+fees:{
+  type:Number,
+  default:0
+},
+clients: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'user' // Referring to the 'user' model/schema
+}]
+
 },
 profileSet:{
   type:Boolean,
